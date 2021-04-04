@@ -1,4 +1,4 @@
-package ru.job4j.it;
+package ru.job4j;
 
 import javax.swing.*;
 import java.util.Iterator;
