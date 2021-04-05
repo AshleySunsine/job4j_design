@@ -24,23 +24,13 @@ public class EvenNumbersIterator implements Iterator {
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        point = nextPoint();
         return data[point++];
-    }
-
-    @Override
-    public void remove() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void forEachRemaining(Consumer action) {
-        throw new UnsupportedOperationException();
     }
 
     private int nextPoint() {
         for (int i = point; i < data.length; i++) {
             if (data[i] % 2 == 0) {
+                point = i;
                 return i;
             }
         }
