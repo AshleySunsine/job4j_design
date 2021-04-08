@@ -11,6 +11,7 @@ public class SimpleArray<T> implements Iterable {
     public SimpleArray(int length) {
         mainModel = new Object[length];
     }
+
     public void add(T model) {
         mainModel[count] = model;
         count++;
