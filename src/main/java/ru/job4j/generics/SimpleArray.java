@@ -36,7 +36,7 @@ public class SimpleArray<T> implements Iterable {
             Object[] arr = mainModel;
             @Override
             public boolean hasNext() {
-                    return cursor + 1 < count;
+                    return cursor < count;
             }
 
             @Override

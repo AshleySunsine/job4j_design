@@ -36,7 +36,7 @@ public class SimpleArray<T> implements Iterable<T> {
                 if (!(expectedModCount == modCount)) {
                     throw new ConcurrentModificationException();
                 }
-                return cursor + 1 < count;
+                return cursor < count;
                 }
 
             @Override
