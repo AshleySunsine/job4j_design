@@ -1,5 +1,6 @@
 package ru.job4j.collection;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -33,10 +34,22 @@ public class SimpleArrayTest {
     }
 
     @Test
+    public void whenIsAndNull() {
+        SimpleArray<String> array = new SimpleArray<>();
+        array.add("1");
+        array.add("2");
+        array.add("3");
+        array.add(null);
+        array.add("5");
+        array.add("6");
+        assertNull(array.get(3));
+    }
+
+    @Test
     public void whenAddThenIt() {
         SimpleArray<String> array = new SimpleArray<>();
         array.add("first");
-        String rsl = (String) array.iterator().next();
+        String rsl = array.iterator().next();
         assertThat(rsl, is("first"));
     }
 
