@@ -49,21 +49,14 @@ public class ForwardLinked<T> implements Iterable<T> {
         }
         prev = null;
         now = head;
-        recursiveRevert();
+        while (now != null) {
+            next = now.next;
+            now.next = prev;
+            prev = now;
+            now = next;
+        }
         head = prev;
         return true;
-    }
-
-    private boolean recursiveRevert() {
-        if (now == null) {
-            return true;
-        }
-        next = now.next;
-        now.next = prev;
-        prev = now;
-        now = next;
-        recursiveRevert();
-        return false;
     }
 
     @Override
