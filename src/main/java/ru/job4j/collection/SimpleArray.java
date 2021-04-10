@@ -16,6 +16,17 @@ public class SimpleArray<T> implements Iterable<T> {
         return (T) mainModel[index];
     }
 
+    public void set(int index, T model) {
+        index = Objects.checkIndex(index, count);
+        mainModel[index] = model;
+    }
+
+    public void remove(int index) {
+        index = Objects.checkIndex(index, count);
+        System.arraycopy(mainModel, index + 1, mainModel, index, mainModel.length - index - 1);
+        count--;
+    }
+
     public void add(T model) {
         if (!((count + 1) < mainModel.length)) {
             mainModel = Arrays.copyOf(mainModel, mainModel.length * 2);
