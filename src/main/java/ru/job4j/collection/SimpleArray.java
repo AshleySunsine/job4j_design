@@ -17,12 +17,10 @@ public class SimpleArray<T> implements Iterable<T> {
     }
 
     public void add(T model) {
-        if ((count + 1) < mainModel.length) {
-            mainModel[count++] = model;
-        } else {
-            mainModel = Arrays.copyOf(mainModel, mainModel.length + 10);
-            mainModel[count++] = model;
+        if (!((count + 1) < mainModel.length)) {
+            mainModel = Arrays.copyOf(mainModel, mainModel.length * 2);
         }
+        mainModel[count++] = model;
         modCount++;
     }
 
@@ -41,9 +39,6 @@ public class SimpleArray<T> implements Iterable<T> {
 
             @Override
             public T next() {
-                if (!(expectedModCount == modCount)) {
-                    throw new ConcurrentModificationException();
-                }
                     if (!hasNext()) {
                         throw new NoSuchElementException();
                     }
