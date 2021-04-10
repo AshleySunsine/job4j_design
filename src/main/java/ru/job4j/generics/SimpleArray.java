@@ -1,9 +1,6 @@
 package ru.job4j.generics;
 
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
 public class SimpleArray<T> implements Iterable {
     private int modCount = 0;
@@ -11,8 +8,11 @@ public class SimpleArray<T> implements Iterable {
    private int count = 0;
 
     public void add(T model) {
-        mainModel[count] = model;
-        count++;
+        if (!((count + 1) < mainModel.length)) {
+            mainModel = Arrays.copyOf(mainModel, mainModel.length * 2);
+        }
+        mainModel[count++] = model;
+        modCount++;
     }
 
     public void set(int index, T model) {
