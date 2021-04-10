@@ -44,8 +44,7 @@ public class ListUtils {
         int count = 0;
         while (i.hasNext()) {
             if (filter.test(i.next())) {
-                i.remove();
-                i.add(value);
+                i.set(value);
             }
             count++;
         }
