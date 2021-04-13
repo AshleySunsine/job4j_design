@@ -60,12 +60,6 @@ public class SimpleLinkedList<E> implements List<E> {
                 throw new NoSuchElementException();
             }
                 E rsl = result.item;
-                if (!(expectedModCount == modCount)) {
-                    throw new ConcurrentModificationException();
-                }
-                if (!hasNext()) {
-                    throw new NoSuchElementException();
-                }
                 result = result.next;
                 cursor++;
                 return rsl;
