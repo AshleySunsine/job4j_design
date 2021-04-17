@@ -1,68 +1,78 @@
 package ru.job4j.collection.hash;
 
-import ru.job4j.collection.list.SimpleLinkedList;
-
-import java.lang.reflect.Array;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class SimpleHashMap<K, V> implements Iterable {
-    int defaultSize = 16;
+    private int defaultSize = 16;
     private Node<K, V>[] table = new Node[defaultSize];
     private int size;
-    int threshold;
-    final float loadFactor = 0.75f;
-    int modCount = 0;
+    private static final float LOAD_FACTOR = 0.75f;
+    private int modCount = 0;
 
-    private final int hash(K key) {
+    private int hash(K key) {
         int h = key.hashCode();
-        return (key == null) ? 0 : h  ^ (h >>> 16);
+        return (key == null) ? 0 : h  ^ (h >>> defaultSize);
     }
 
-    private final int bucket(Node<K, V>[] table, int hash) {
+    private int bucket(Node<K, V>[] table, int hash) {
         return (table.length - 1) & hash;
     }
 
     private void resize() {
-        Node<K, V>[] newTable = new Node[defaultSize * 2];
-        System.arraycopy(table, 0, newTable, 0, table.length);
+        defaultSize = defaultSize * 2;
+        Node<K, V>[] newTable = new Node[defaultSize];
+        for (Node<K, V> item : table) {
+            if (item != null) {
+                insertFor(newTable, item.key, item.value);
+            }
+        }
         table = newTable;
-        defaultSize = newTable.length;
         System.out.println("Resize! New size = " + defaultSize);
     }
 
-    public boolean insert(K key, V value) {
+    private boolean insertFor(Node<K, V>[] table, K key, V value) {
         int hash;
         int bucket;
         Node<K, V> node;
         hash = hash(key);
         bucket = bucket(table, hash);
         node = new Node<K, V>(hash, key, value, null);
-        if ((table[bucket] != null) && (table[bucket].key != key)) {
+        if ((table[bucket] != null) && (table[bucket].key.equals(key))) {
             System.out.println("DOUBLE!");
             return false;
         }
         table[bucket] = node;
-        if (size > (table.length * loadFactor)) {
+        if (size > (table.length * LOAD_FACTOR)) {
             resize();
         }
-        size++;
-        modCount++;
         return true;
+    }
+
+    public boolean insert(K key, V value) {
+        if (insertFor(table, key, value)) {
+            size++;
+            modCount++;
+            return true;
+        }
+        return false;
     }
 
     public boolean delete(K key) {
         int bucket = bucket(table, hash(key));
-        table[bucket] = null;
-        size--;
-        modCount++;
+        if (table[bucket].key.equals(key)) {
+            table[bucket] = null;
+            size--;
+            modCount++;
+            return true;
+        }
         return false;
     }
 
     public V get(K key) {
         int bucket = (table.length - 1) & hash(key);
-        return table[bucket].value;
+        return table[bucket].key.equals(key) ? table[bucket].value : null;
     }
 
     @Override
@@ -99,7 +109,7 @@ public class SimpleHashMap<K, V> implements Iterable {
     }
 
     class Node<K, V> {
-        private int hash;
+        int hash;
         K key;
         V value;
         Node<K, V> next;
@@ -117,6 +127,8 @@ public class SimpleHashMap<K, V> implements Iterable {
         System.out.println(table.insert("first", "1"));
         System.out.println(table.insert("sec", "2"));
         System.out.println(table.insert("t", "4"));
+        System.out.println(table.insert("g", "3"));
+        System.out.println(table.insert("g", "3"));
         System.out.println(table.insert("g", "3"));
 
         Iterator it = table.iterator();
