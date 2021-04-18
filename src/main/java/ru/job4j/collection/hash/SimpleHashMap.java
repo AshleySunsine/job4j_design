@@ -33,15 +33,14 @@ public class SimpleHashMap<K, V> implements Iterable {
     }
 
     private boolean insertFor(Node<K, V>[] table, K key, V value) {
-        int hash;
         int bucket;
         Node<K, V> node;
-        hash = hash(key);
-        bucket = bucket(table, hash);
-        node = new Node<K, V>(hash, key, value, null);
+        bucket = bucket(table, hash(key));
+        node = new Node<K, V>(hash(key), key, value, null);
         if ((table[bucket] != null) && (table[bucket].key.equals(key))) {
-            System.out.println("DOUBLE!");
-            return false;
+            delete(key);
+            insert(key, value);
+            System.out.println("DOUBLE! Rewrite");
         }
         table[bucket] = node;
         if (size > (table.length * LOAD_FACTOR)) {
