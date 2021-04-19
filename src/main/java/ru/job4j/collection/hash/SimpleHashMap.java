@@ -3,7 +3,6 @@ package ru.job4j.collection.hash;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 public class SimpleHashMap<K, V> implements Iterable {
     private int defaultSize = 16;
@@ -11,6 +10,10 @@ public class SimpleHashMap<K, V> implements Iterable {
     private int size;
     private static final float LOAD_FACTOR = 0.75f;
     private int modCount = 0;
+
+    public int getMapSize() {
+        return this.defaultSize;
+    }
 
     private int hash(K key) {
         int h = key.hashCode();
@@ -77,7 +80,7 @@ public class SimpleHashMap<K, V> implements Iterable {
         if ((table[bucket] != null) && (table[bucket].key.equals(key))) {
             return table[bucket].key.equals(key) ? table[bucket].value : null;
         }
-        return (V) Optional.empty();
+        return null;
     }
 
     @Override
@@ -126,42 +129,12 @@ public class SimpleHashMap<K, V> implements Iterable {
             this.next = next;
         }
 
-        public int getHash() {
-            return hash;
-        }
-
-        public K getKey() {
-            return key;
-        }
-
         public V getValue() {
             return value;
         }
 
         public Node<K, V> getNext() {
             return next;
-        }
-    }
-
-    public static void main(String[] args) {
-        SimpleHashMap<String, String> table = new SimpleHashMap<>();
-        System.out.println(table.insert("first", "1"));
-        System.out.println(table.insert("sec", "2"));
-        System.out.println(table.insert("t", "4"));
-        System.out.println(table.insert("g", "3"));
-        System.out.println(table.insert("g", "3"));
-        System.out.println(table.insert("g", "3"));
-
-        Iterator it = table.iterator();
-        while (it.hasNext()) {
-            System.out.println(it.next());
-        }
-
-        System.out.println();
-        SimpleHashMap<Integer, Integer> table2 = new SimpleHashMap<>();
-        System.out.println(table2.defaultSize);
-        for (int i = 0; i < 101; i++) {
-            table2.insert(i, i + 2);
         }
     }
 }
