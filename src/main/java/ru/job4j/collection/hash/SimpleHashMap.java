@@ -3,6 +3,7 @@ package ru.job4j.collection.hash;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public class SimpleHashMap<K, V> implements Iterable {
     private int defaultSize = 16;
@@ -37,16 +38,18 @@ public class SimpleHashMap<K, V> implements Iterable {
         Node<K, V> node;
         bucket = bucket(table, hash(key));
         node = new Node<K, V>(hash(key), key, value, null);
-        if ((table[bucket] != null) && (table[bucket].key.equals(key))) {
-            delete(key);
-            insert(key, value);
+        if ((table[bucket] != null) && table[bucket].key.equals(key)) {
+            table[bucket] = node;
             System.out.println("DOUBLE! Rewrite");
         }
-        table[bucket] = node;
-        if (size > (table.length * LOAD_FACTOR)) {
-            resize();
+        if ((table[bucket] == null) || table[bucket].key.equals(key)) {
+            table[bucket] = node;
+            if (size > (table.length * LOAD_FACTOR)) {
+                resize();
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     public boolean insert(K key, V value) {
@@ -71,7 +74,10 @@ public class SimpleHashMap<K, V> implements Iterable {
 
     public V get(K key) {
         int bucket = (table.length - 1) & hash(key);
-        return table[bucket].key.equals(key) ? table[bucket].value : null;
+        if ((table[bucket] != null) && (table[bucket].key.equals(key))) {
+            return table[bucket].key.equals(key) ? table[bucket].value : null;
+        }
+        return (V) Optional.empty();
     }
 
     @Override
@@ -108,9 +114,9 @@ public class SimpleHashMap<K, V> implements Iterable {
     }
 
     class Node<K, V> {
-        int hash;
-        K key;
-        V value;
+        private int hash;
+        private K key;
+        private V value;
         Node<K, V> next;
 
         public Node(int hash, K key, V value, Node<K, V> next) {
@@ -118,6 +124,22 @@ public class SimpleHashMap<K, V> implements Iterable {
             this.key = key;
             this.value = value;
             this.next = next;
+        }
+
+        public int getHash() {
+            return hash;
+        }
+
+        public K getKey() {
+            return key;
+        }
+
+        public V getValue() {
+            return value;
+        }
+
+        public Node<K, V> getNext() {
+            return next;
         }
     }
 
