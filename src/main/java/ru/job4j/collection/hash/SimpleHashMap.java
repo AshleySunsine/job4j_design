@@ -132,6 +132,12 @@ public class SimpleHashMap<K, V> implements Iterable {
         public V getValue() {
             return value;
         }
+        public K getKey() {
+            return key;
+        }
+        public int getHash() {
+            return hash;
+        }
 
         public Node<K, V> getNext() {
             return next;
