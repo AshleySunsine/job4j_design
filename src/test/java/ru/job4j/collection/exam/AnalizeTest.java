@@ -26,7 +26,8 @@ public class AnalizeTest {
         l2.add(new Analize.User(1, "a"));
         l2.add(new Analize.User(2, "aa"));
 
-        assertNull(an.diff(l1, l2));
+        Analize.Info exec = an.diff(l1, l2);
+        assertEquals(exec, new Analize.Info(0,0, 0));
     }
 
     @Test

@@ -8,32 +8,26 @@ public class Analize {
     private Map<Integer, User> currentMap = new HashMap<>();
 
     public Info diff(List<User> previous, List<User> current) {
-        previusMap = previous.stream().collect(Collectors.toMap(f -> f.id, f -> f));
         currentMap = current.stream().collect(Collectors.toMap(f -> f.id, f -> f));
-
         int diffCount = 0;
         int deleteCount = 0;
         int addCount = currentMap.size();
 
-
-        for (var i : previusMap.entrySet()) {
-
-            User z = (currentMap.put(i.getKey(), i.getValue()));
-            if (z != null && !(z.name.equals(i.getValue().name))) {
+        for (var i : previous) {
+            User z = (currentMap.put(i.id, i));
+            if (z != null && !(z.name.equals(i.name))) {
                     diffCount++;
-                    currentMap.remove(i.getKey());
+                    currentMap.remove(i.id);
                 }
-
             if (z == null) {
                 deleteCount++;
             }
-
-            if (z != null && z.id == i.getValue().id) {
-                currentMap.remove(i.getKey());
+            if (z != null && z.id == i.id) {
+                currentMap.remove(i.id);
                 addCount--;
             }
         }
-        return (addCount + deleteCount + diffCount) == 0 ? null : new Info(addCount, diffCount, deleteCount);
+        return new Info(addCount, diffCount, deleteCount);
     }
 
     public static class User {
