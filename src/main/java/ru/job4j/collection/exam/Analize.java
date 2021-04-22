@@ -4,7 +4,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Analize {
-    private Map<Integer, User> previusMap = new HashMap<>();
     private Map<Integer, User> currentMap = new HashMap<>();
 
     public Info diff(List<User> previous, List<User> current) {
@@ -14,16 +13,14 @@ public class Analize {
         int addCount = currentMap.size();
 
         for (var i : previous) {
-            User z = (currentMap.put(i.id, i));
+            User z = (currentMap.get(i.id));
             if (z != null && !(z.name.equals(i.name))) {
                     diffCount++;
-                    currentMap.remove(i.id);
                 }
             if (z == null) {
                 deleteCount++;
             }
             if (z != null && z.id == i.id) {
-                currentMap.remove(i.id);
                 addCount--;
             }
         }
