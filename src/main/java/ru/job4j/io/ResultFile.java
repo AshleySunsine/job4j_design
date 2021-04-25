@@ -11,7 +11,7 @@ public class ResultFile {
                     rsl = i + " x " + j + " = " + (j * i) + "; ";
                     out.write(rsl.getBytes());
                 }
-                out.write("\n".getBytes());
+                out.write(System.lineSeparator().getBytes());
             }
         } catch (Exception e) {
             e.printStackTrace();
