@@ -9,26 +9,12 @@ import java.util.stream.Collectors;
 
 public class LogFilter {
     public static List<String> filter(String file) {
-       List<String> rsl = new ArrayList<>();
+        List<String> rsl = null;
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            List<List<String>> list = new ArrayList<>();
-            int i = 0;
-            reader.lines().forEach(s -> list
-                    .add(Arrays
-                            .stream(s.split(" "))
-                            .collect(Collectors.toList())));
-            for (var s : list) {
-                if (s.get(s.size() - 2).equals("404")) {
-                    String lineEnd = Arrays.toString(
-                            s.toArray())
-                            .replaceAll("\\[|\\]|,|\\s", "");
-                    rsl.add(lineEnd);
-                }
-            }
+             rsl = reader.lines().filter(f -> f.contains("404")).collect(Collectors.toList());
         } catch (Exception e) {
            e.printStackTrace();
        }
-
         return rsl;
     }
 
