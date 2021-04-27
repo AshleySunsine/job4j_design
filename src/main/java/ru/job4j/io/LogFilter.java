@@ -1,19 +1,21 @@
 package ru.job4j.io;
 
 import java.io.*;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class LogFilter {
     public static List<String> filter(String file) {
-        List<String> rsl = null;
+        List<String> rsl = Collections.emptyList();
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             rsl = reader
                     .lines()
-                    .filter(s -> s
-                            .substring(s.lastIndexOf(" ") - 3, s.lastIndexOf(" "))
-                            .equals("404"))
-                    .collect(Collectors.toList());
+                    .filter(s -> {
+                        int inx = s.lastIndexOf(" ");
+                        return s.substring(inx - 3, inx).equals("404");
+                    }
+                    ).collect(Collectors.toList());
         } catch (Exception e) {
            e.printStackTrace();
        }
