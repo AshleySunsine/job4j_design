@@ -22,19 +22,12 @@ public class Config {
                         values.put(s.substring(0, inx), s.substring(inx + 1));
                     });
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (values.isEmpty()) {
             throw new IllegalArgumentException("Pairs key=value arn't in " + path);
         }
     }
 
     public String value(String key) {
-        if (!values.isEmpty()) {
-            return values.get(key);
-        } else {
-            throw new UnsupportedOperationException("Don't impl this method yet!");
-        }
+        return values.getOrDefault(key, null);
     }
 
     @Override

@@ -28,14 +28,14 @@ public class ConfigTest {
         String path = "app.propertiesFailKeyValue";
         Config config = new Config(path);
         config.load();
-        assertThat(config.value("hibernate.dialect"),is("org.hibernate.dialect.PostgreSQLDialect"));
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void whenUnsupportedOperationException() {
-        String path = "app.propertiesFailKeyValue";
+    @Test
+    public void whenKeyIsnt() {
+        String path = "app.properties";
         Config config = new Config(path);
-        assertThat(config.value("hibernate.dialect"),is("org.hibernate.dialect.PostgreSQLDialect"));
+        config.load();
+        assertNull(config.value("hh"));
     }
 
 }
