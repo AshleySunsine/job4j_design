@@ -2,18 +2,13 @@ package ru.job4j.io;
 
 import org.junit.Assert;
 import org.junit.Test;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
-
 
 public class AnalizyTest {
 
@@ -40,6 +35,6 @@ public class AnalizyTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Assert.assertThat(is, is(new ArrayList<>(Arrays.asList("Server enable all time"))));
+        Assert.assertThat(is.get(0), is("Server enable all time"));
     }
 }
