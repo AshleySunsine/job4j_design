@@ -17,9 +17,10 @@ public class Config {
             read
                     .lines()
                     .filter(s -> !s.startsWith("#"))
-                    .forEach(s -> values
-                            .put(s.substring(0, s.indexOf("=")),
-                                    s.substring(s.indexOf("=") + 1)));
+                    .forEach(s -> {
+                        int inx = s.indexOf("=");
+                        values.put(s.substring(0, inx), s.substring(inx + 1));
+                    });
         } catch (Exception e) {
             e.printStackTrace();
         }
