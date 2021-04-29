@@ -36,7 +36,5 @@ public class Analizy {
     }
 
     public static void main(String[] args) {
-        Analizy analyz = new Analizy();
-        analyz.unavailable("ServerAble", "unavailable.csv");
     }
 }
