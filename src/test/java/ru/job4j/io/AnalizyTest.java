@@ -41,7 +41,7 @@ public class AnalizyTest {
     }
 
     @Test
-    public void whenNoDisable() throws IOException{
+    public void whenNoDisable() throws IOException {
         File source = temp.newFile("EmptyText");
         File target = temp.newFile("unavailable2.csv");
         try (PrintWriter out = new PrintWriter(source)) {

@@ -25,6 +25,6 @@ public class AbuseTest {
         try (BufferedReader in = new BufferedReader(new FileReader(target))) {
             in.lines().forEach(rsl::append);
         }
-        assertThat(rsl.toString(), is("hello dude "));
+        assertThat(rsl.toString(), is(""));
     }
 }

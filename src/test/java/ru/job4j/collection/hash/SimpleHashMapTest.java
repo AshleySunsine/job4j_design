@@ -24,7 +24,7 @@ public class SimpleHashMapTest {
 
     @Test
     public void whenAddToTable() {
-        SimpleHashMap<String,String> table = new SimpleHashMap<>();
+        SimpleHashMap<String, String> table = new SimpleHashMap<>();
         table.insert("one", "o");
         table.insert("two", "oo");
         table.insert("three", "ooo");

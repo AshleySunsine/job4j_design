@@ -21,25 +21,8 @@ public class FileProperty {
         return fullName;
     }
 
-    public FileProperty setFullName(String fullName) {
-        this.fullName = fullName;
-        return this;
-    }
-
-    public long getSize() {
-        return size;
-    }
-
-    public void setSize(long size) {
-        this.size = size;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override
@@ -61,10 +44,10 @@ public class FileProperty {
 
     @Override
     public String toString() {
-        return "FileProperty{" +
-                "size=" + size +
-                ", name='" + name + '\'' +
-                ", fullName='" + fullName + '\'' +
-                '}';
+        return "FileProperty{"
+               + "size=" + size
+               + ", name='" + name + '\''
+               + ", fullName='" + fullName + '\''
+               + '}';
     }
 }

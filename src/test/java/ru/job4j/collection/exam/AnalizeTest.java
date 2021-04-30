@@ -27,7 +27,7 @@ public class AnalizeTest {
         l2.add(new Analize.User(2, "aa"));
 
         Analize.Info exec = an.diff(l1, l2);
-        assertEquals(exec, new Analize.Info(0,0, 0));
+        assertEquals(exec, new Analize.Info(0, 0, 0));
     }
 
     @Test
@@ -110,6 +110,6 @@ public class AnalizeTest {
         System.out.println("Added:" + an.diff(l1, l2).added
                 + " Changed:" + an.diff(l1, l2).changed
                 + " Deleted:" + an.diff(l1, l2).deleted);
-        assertEquals(exec, new Analize.Info(3,2, 1));
+        assertEquals(exec, new Analize.Info(3, 2, 1));
     }
 }
