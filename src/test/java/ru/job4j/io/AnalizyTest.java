@@ -23,15 +23,10 @@ public class AnalizyTest {
         File target = temp.newFile("unavailable.csv");
             try (PrintWriter out = new PrintWriter(source)) {
                 out.println("200 10:56:01");
-                out.println("");
                 out.println("500 10:57:01");
-                out.println("");
                 out.println("400 10:58:01");
-                out.println("");
                 out.println("200 10:59:01");
-                out.println("");
                 out.println("500 11:01:02");
-                out.println("");
                 out.println("200 11:02:02");
             }
         Analizy analyz = new Analizy();
