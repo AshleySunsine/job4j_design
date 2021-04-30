@@ -9,10 +9,10 @@ import java.util.function.Predicate;
 public class Search {
     public static void main(String[] args) throws IOException {
         Search search = new Search();
-        Path start = Paths.get(".");
+        Path start = Paths.get(args[0]);
         search.search(start, p -> p.toFile()
                 .getName()
-                .endsWith("txt"))
+                .endsWith(args[1]))
                 .forEach(System.out::println);
     }
 
