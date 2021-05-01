@@ -12,10 +12,8 @@ public class Dir {
             throw new IllegalArgumentException(String.format("Not directory %s", file.getAbsoluteFile()));
         }
         System.out.println(String.format("size : %s", file.getTotalSpace()));
-        for (File subfile : file.listFiles()) {
-            String fullFileName = subfile.getAbsoluteFile().toString();
-            int lastSlashIndex = fullFileName.lastIndexOf('\\');
-            System.out.println(subfile.length() + " " + fullFileName.substring(lastSlashIndex + 1));
-        }
+            for (File subfile : file.listFiles()) {
+                System.out.println(subfile.getName() + " " + subfile.length());
+            }
     }
 }
