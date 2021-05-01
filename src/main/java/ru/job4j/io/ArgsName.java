@@ -22,7 +22,7 @@ public class ArgsName {
             if ((key.length() != 0) && (value.length() != 0)) {
                 values.put(par.substring(1, indexEq), par.substring(indexEq + 1));
             } else {
-                throw new IllegalArgumentException("Pairs key=value arn't in");
+                throw new IllegalArgumentException("Pairs key=value arn't in " + key + " " + value);
             }
         }
     }
