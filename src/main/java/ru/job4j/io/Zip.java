@@ -1,6 +1,7 @@
 package ru.job4j.io;
 
 import java.io.*;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,21 +39,25 @@ public class Zip {
         return null;
     }
 
+    private static List<File> searching(String[] args) throws IOException {
+        Search search = new Search();
+        return search.search(Paths.get(ArgsName.of(args).get("d")),
+                f -> !f.toFile()
+                        .getName()
+                        .endsWith(ArgsName.of(args).get("e")))
+                .stream()
+                .map(p -> p.toFile())
+                .collect(Collectors.toList());
+    }
+
     public static void main(String[] args) throws IOException {
         List<File> list;
-        Search search = new Search();
         try {
             validation(args);
         } catch (Exception e) {
             e.printStackTrace();
                 }
-        list = search.search(Paths.get(ArgsName.of(args).get("d")),
-                f -> !f.toFile()
-                      .getName()
-                      .endsWith(ArgsName.of(args).get("e")))
-                               .stream()
-                               .map(p -> p.toFile())
-                .collect(Collectors.toList());
+        list = searching(args);
         list.forEach(System.out::println);
         new Zip().packFiles(list, new File(ArgsName.of(args).get("o")));
     }
