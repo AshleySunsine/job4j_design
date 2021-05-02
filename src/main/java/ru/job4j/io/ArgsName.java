@@ -11,19 +11,22 @@ public class ArgsName {
         return values.get(key);
     }
 
+    @SuppressWarnings("checkstyle:RightCurly")
     private void parse(String[] args) {
         if (args.length == 0) {
             throw new IllegalArgumentException("Root folder is null. Usage java -jar dir.jar ROOT_FOLDER.");
         }
         for (var par : args) {
             int indexEq = par.indexOf("=");
+            if (indexEq == (-1)) {
+                throw new IllegalArgumentException("indexEq == -1 in " + par);
+            }
             String key = par.substring(1, indexEq);
             String value = par.substring(indexEq + 1);
-            if ((key.length() != 0) && (value.length() != 0)) {
-                values.put(par.substring(1, indexEq), par.substring(indexEq + 1));
-            } else {
+            if ((key.length() == 0) && (value.length() == 0)) {
                 throw new IllegalArgumentException("Pairs key=value arn't in " + key + " " + value);
             }
+            values.put(par.substring(1, indexEq), par.substring(indexEq + 1));
         }
     }
 
