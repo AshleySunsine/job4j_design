@@ -49,8 +49,8 @@ public class ConsoleChat {
                     if (answer.equals(OUT)) {
                         writer.write("[" + formatForDateNow.format(date) + "] " + "Bay");
                         System.out.println("[" + formatForDateNow.format(date) + "] " + "Bay");
+                        pause = true;
                         onGoing = false;
-                        break;
                     }
                     if (!pause) {
                         botAnswer = answerList.get(new Random().nextInt(9));
