@@ -46,7 +46,6 @@ public class EchoServer {
                             }
                             out.write(answ.getBytes(Charset.forName("WINDOWS-1251")));
                         }
-                        //Не стал убирать цикл, может в будущем пригодится.
                         break;
                     }
                     server.close();
