@@ -1,7 +1,16 @@
 package ru.job4j.serialization.json;
+import com.sun.xml.txw2.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAttribute;
 
+@XmlElement(value = "contact")
 public class Contact {
-    private final String phone;
+
+    @XmlAttribute
+    private String phone;
+
+    public Contact() {
+
+    }
 
     public Contact(String phone) {
         this.phone = phone;
