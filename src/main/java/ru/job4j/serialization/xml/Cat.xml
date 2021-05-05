@@ -1,0 +1,11 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<Cat isMan="true" age="7" name="Dr.Feelgood">
+<eats>
+<eat>Meet</eat>
+<eat>Fish</eat>
+<eat>Water</eat>
+</eats>
+<Contact>
+<phone>"777-77-77-2"</phone>
+</Contact>
+</Cat>
