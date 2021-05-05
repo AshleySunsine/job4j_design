@@ -1,30 +1,19 @@
 package ru.job4j.serialization.json;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.*;
-import java.io.StringReader;
-import java.io.StringWriter;
+import org.json.JSONObject;
 import java.util.Arrays;
 
-@XmlRootElement
+
 public class Cat {
-    @XmlAttribute
+
     private boolean isMan;
-    @XmlAttribute
+
     private int age;
-    @XmlAttribute
+
     private String name;
-    @XmlElementWrapper(name = "eats")
-    @XmlElement(name = "eat")
+
     private String[] eats;
     private Contact contact;
-
-    public Cat() {
-
-    }
 
     public Cat(boolean isMan, int age, String name, String[] eats, Contact contact) {
         this.isMan = isMan;
@@ -32,6 +21,26 @@ public class Cat {
         this.name = name;
         this.eats = eats;
         this.contact = contact;
+    }
+
+    public boolean isMan() {
+        return isMan;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String[] getEats() {
+        return eats;
+    }
+
+    public Contact getContact() {
+        return contact;
     }
 
     @Override
@@ -45,26 +54,15 @@ public class Cat {
                 + '}';
     }
 
-    public static void main(String[] args) throws JAXBException {
+    public static void main(String[] args) {
         String[] eats = {"meet", "fish", "water"};
         Cat cat = new Cat(true, 7, "Dr.Feelgood", eats, new Contact("777-77-77-2"));
-        String xml = "";
-
-        JAXBContext context = JAXBContext.newInstance(Cat.class);
-        Marshaller marshaller = context.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        try (StringWriter writer = new StringWriter()) {
-            marshaller.marshal(cat, writer);
-            xml = writer.getBuffer().toString();
-            System.out.println(xml);
-        } catch (Exception e) {
-            e.printStackTrace();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("isMan", cat.isMan());
+        jsonObject.put("age", cat.getAge());
+        jsonObject.put("name", cat.getName());
+        jsonObject.put("eats", cat.getEats());
+        jsonObject.put("contact", cat.getContact());
+        System.out.println(jsonObject.toString());
         }
-
-        try (StringReader reader = new StringReader(xml)) {
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-            Cat catty = (Cat) unmarshaller.unmarshal(reader);
-            System.out.println(catty);
-        }
-    }
 }
