@@ -23,21 +23,17 @@ public class ConsoleChat {
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm:ss");
         boolean onGoing = true;
         boolean pause = false;
-        String answer;
-        String botAnswer;
-        List<String> answerList;
+        List<String> dialogList = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
-            try (BufferedReader reader = new BufferedReader(new FileReader(botAnswers));
-                 BufferedWriter writer = new BufferedWriter(
-                         new FileWriter(path, Charset.forName("WINDOWS-1251"), true))) {
-               answerList = reader.lines().collect(Collectors.toList());
-               answer = date.toString();
-               writer.write(answer + System.lineSeparator() + "Hallow" + System.lineSeparator());
+            try (BufferedReader reader = new BufferedReader(new FileReader(botAnswers))) {
+                List<String> answerList = reader.lines().collect(Collectors.toList());
+                String answer = date.toString();
+               dialogList.add(answer + System.lineSeparator() + "Hallow" + System.lineSeparator());
                 System.out.println("[" + formatForDateNow.format(date) + "] "
                         + answer + System.lineSeparator() + "Hallow");
                 do {
                     answer = scanner.nextLine();
-                    writer.write("[" + formatForDateNow.format(date) + "] "
+                    dialogList.add("[" + formatForDateNow.format(date) + "] "
                             + answer + System.lineSeparator());
                     if (answer.equals(STOP)) {
                         pause = true;
@@ -46,16 +42,16 @@ public class ConsoleChat {
                         pause = false;
                     }
                     if (answer.equals(OUT)) {
-                        writer.write("[" + formatForDateNow.format(date) + "] " + "Bay");
+                        dialogList.add("[" + formatForDateNow.format(date) + "] " + "Bay");
                         System.out.println("[" + formatForDateNow.format(date) + "] " + "Bay");
                         pause = true;
                         onGoing = false;
                     }
                     if (!pause) {
-                        botAnswer = answerList.get(new Random().nextInt(9));
+                        String botAnswer = answerList.get(new Random().nextInt(9));
                         System.out.println("[" + formatForDateNow.format(date) + "] "
                                 + botAnswer);
-                        writer.write("[" + formatForDateNow.format(date) + "] "
+                        dialogList.add("[" + formatForDateNow.format(date) + "] "
                                 + botAnswer + System.lineSeparator());
                     }
                 } while (onGoing);
@@ -64,6 +60,17 @@ public class ConsoleChat {
                 e.printStackTrace();
             }
             scanner.close();
+            writeToFile(dialogList);
+        }
+
+        private void writeToFile(List<String> list) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path, Charset.forName("WINDOWS-1251")))) {
+            for (String s : list) {
+                writer.write(s);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         }
 
     public static void main(String[] args) {

@@ -43,6 +43,8 @@ public class EchoServer {
                         builderString.append(str);
                     }
                     str = builderString.toString();
+                    System.out.println("*******************");
+                    System.out.println(str);
                     if (str.contains("msg=")) {
                         int indexQ = str.indexOf("/?msg=");
                         int indexQend = str.indexOf(" HTTP");
@@ -55,7 +57,6 @@ public class EchoServer {
                         }
                         out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes(Charset.forName("WINDOWS-1251")));
                         out.write(answ.getBytes(Charset.forName("WINDOWS-1251")));
-                        server.close();
                     }
                 }
             }
