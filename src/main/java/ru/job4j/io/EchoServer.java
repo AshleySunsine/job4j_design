@@ -4,6 +4,8 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -35,24 +37,26 @@ public class EchoServer {
                 try (OutputStream out = socket.getOutputStream();
                      BufferedReader in = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) {
-                    String str = in.readLine();
-                    String answ;
-                    while (!str.isEmpty()) {
-                        if (str.contains("msg=")) {
-                            int indexQ = str.indexOf("/?msg=");
-                            int indexQend = str.indexOf(" HTTP");
-                            String msg = str.substring(indexQ + 6, indexQend);
-                            answ = serverResponce(msg);
-                            if (answ.equals("-1")) {
-                                out.write("Bye Bye".getBytes());
-                                server.close();
-                                break;
-                            }
-                            out.write(answ.getBytes(Charset.forName("WINDOWS-1251")));
-                        }
-                        break;
+                    StringBuilder builderString = new StringBuilder();
+                    String str;
+                    while (!(str = in.readLine()).isEmpty()) {
+                        builderString.append(str);
                     }
-                    server.close();
+                    str = builderString.toString();
+                    if (str.contains("msg=")) {
+                        int indexQ = str.indexOf("/?msg=");
+                        int indexQend = str.indexOf(" HTTP");
+                        String msg = str.substring(indexQ + 6, indexQend);
+                        String answ = serverResponce(msg);
+                        if (answ.equals("-1")) {
+                            out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes(Charset.forName("WINDOWS-1251")));
+                            out.write("Bye Bye".getBytes(Charset.forName("WINDOWS-1251")));
+                            server.close();
+                        }
+                        out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes(Charset.forName("WINDOWS-1251")));
+                        out.write(answ.getBytes(Charset.forName("WINDOWS-1251")));
+                        server.close();
+                    }
                 }
             }
         } catch (Exception e) {
@@ -60,3 +64,4 @@ public class EchoServer {
         }
     }
 }
+
