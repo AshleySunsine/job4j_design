@@ -30,6 +30,7 @@ public class EchoServer {
         return resp;
     }
 
+
     public static void main(String[] args) {
         try (ServerSocket server = new ServerSocket(9000)) {
             while (!server.isClosed()) {
@@ -39,8 +40,10 @@ public class EchoServer {
                              new InputStreamReader(socket.getInputStream()))) {
                     StringBuilder builderString = new StringBuilder();
                     String str;
-                    while (!(str = in.readLine()).isEmpty()) {
+                    str = in.readLine();
+                    while (!str.isEmpty()) {
                         builderString.append(str);
+                        str = in.readLine();
                     }
                     str = builderString.toString();
                     System.out.println("*******************");
