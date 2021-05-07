@@ -23,7 +23,7 @@ public class ArgsName {
             }
             String key = par.substring(1, indexEq);
             String value = par.substring(indexEq + 1);
-            if ((key.length() == 0) && (value.length() == 0)) {
+            if ((key.length() == 0) || (value.length() == 0)) {
                 throw new IllegalArgumentException("Pairs key=value arn't in " + key + " " + value);
             }
             values.put(key, value);
