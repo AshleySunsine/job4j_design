@@ -18,6 +18,16 @@ public class ConsoleChat {
         this.botAnswers = botAnswers;
     }
 
+    private List<String> readBotAnswers(String file) {
+        List<String> answerList = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            answerList = reader.lines().collect(Collectors.toList());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return answerList;
+    }
+
     public void run() {
         Date date = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm:ss");
@@ -25,12 +35,11 @@ public class ConsoleChat {
         boolean pause = false;
         List<String> dialogList = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
-            try (BufferedReader reader = new BufferedReader(new FileReader(botAnswers))) {
-                List<String> answerList = reader.lines().collect(Collectors.toList());
-                String answer = date.toString();
-               dialogList.add(answer + System.lineSeparator() + "Hallow" + System.lineSeparator());
-                System.out.println("[" + formatForDateNow.format(date) + "] "
-                        + answer + System.lineSeparator() + "Hallow");
+        List<String> answerList = readBotAnswers(botAnswers);
+        String answer = date.toString();
+        dialogList.add(answer + System.lineSeparator() + "Hallow" + System.lineSeparator());
+        System.out.println("[" + formatForDateNow.format(date) + "] "
+                + answer + System.lineSeparator() + "Hallow");
                 do {
                     answer = scanner.nextLine();
                     dialogList.add("[" + formatForDateNow.format(date) + "] "
@@ -55,10 +64,6 @@ public class ConsoleChat {
                                 + botAnswer + System.lineSeparator());
                     }
                 } while (onGoing);
-            } catch (Exception e) {
-                scanner.close();
-                e.printStackTrace();
-            }
             scanner.close();
             writeToFile(dialogList);
         }
