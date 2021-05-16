@@ -4,9 +4,11 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
-
 
 public class EchoServer {
     private static final Logger LOG = LoggerFactory.getLogger(UsageLog4j.class.getName());
@@ -34,30 +36,35 @@ public class EchoServer {
             while (!server.isClosed()) {
                 Socket socket = server.accept();
                 try (OutputStream out = socket.getOutputStream();
-                     BufferedReader in = new BufferedReader(
-                             new InputStreamReader(socket.getInputStream()))) {
+                     InputStream inputStream =  socket.getInputStream()) {
                     StringBuilder builderString = new StringBuilder();
-                    String str;
-                    str = in.readLine();
-                    while (!str.isEmpty()) {
-                        builderString.append(str);
-                        str = in.readLine();
+                    List<Integer> l = new ArrayList<>();
+                    while (inputStream.available() > 0) {
+                    l.add(inputStream.read());
                     }
-                    str = builderString.toString();
+                    l.forEach(c -> builderString.append(Character.toString(c)));
+                    String str;
+                    str = builderString.substring(0);
                     System.out.println("*******************");
                     System.out.println(str);
                     if (str.contains("msg=")) {
                         int indexQ = str.indexOf("/?msg=");
                         int indexQend = str.indexOf(" HTTP");
-                        String msg = str.substring(indexQ + 6, indexQend);
-                        String answ = serverResponce(msg);
-                        if (answ.equals("-1")) {
+                        if (indexQ < indexQend) {
+                            String msg = str.substring(indexQ + 6, indexQend);
+                            String answ = serverResponce(msg);
+                            if (answ.equals("-1")) {
+                                out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes(Charset.forName("WINDOWS-1251")));
+                                out.write("Bye Bye".getBytes(Charset.forName("WINDOWS-1251")));
+                                server.close();
+                                break;
+                            }
                             out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes(Charset.forName("WINDOWS-1251")));
-                            out.write("Bye Bye".getBytes(Charset.forName("WINDOWS-1251")));
-                            server.close();
+                            out.write(answ.getBytes(Charset.forName("WINDOWS-1251")));
                         }
+                    } else {
                         out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes(Charset.forName("WINDOWS-1251")));
-                        out.write(answ.getBytes(Charset.forName("WINDOWS-1251")));
+                        out.write("Непонятненько".getBytes(Charset.forName("WINDOWS-1251")));
                     }
                 }
             }
