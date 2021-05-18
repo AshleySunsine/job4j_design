@@ -1,0 +1,11 @@
+﻿insert into roles(role_field) values('Role_1');
+insert into rules(rule_field) values('Rule_1');
+insert into users(username, role_id) values('ivan', 1);
+insert into roles_rules(role_id) values('1');
+insert into roles_rules(rule_id) values('1');
+insert into states(state) values('State_1');
+insert into categories(category) values('category_1');
+insert into items(item, user_id, categories_id, state_id) values('item_1', 1, 1, 1);
+insert into comments(comment_field, item_id) values('Comment_1', 1);
+insert into attachs(attach, item_id) values('attach_1', 1);
+insert into categories(category) values('category_1');
