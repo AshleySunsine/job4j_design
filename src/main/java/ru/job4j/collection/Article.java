@@ -1,25 +1,34 @@
 package ru.job4j.collection;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
 
 public class Article {
-    public static boolean generateBy(String origin, String line) {
-        StringBuilder filtredOrg = new StringBuilder();
-        StringBuilder filtredLine = new StringBuilder();
-        for (int i = 0; i < origin.length(); i++) {
-            if (Character.isLetterOrDigit(origin.charAt(i)) || (origin.charAt(i) == ' ')) {
-                filtredOrg.append(origin.charAt(i));
+    public static boolean generateBy(String text, String origin) {
+        String[] source = origin.split("");
+        String[] array = text.split("");
+        HashMap<String, Integer> counts = new HashMap<>();
+        for (int i = 0; i < source.length; i++) {
+            String key = source[i];
+            if (counts.containsKey(key)) {
+                counts.put(key, counts.get(key) + 1);
+            } else {
+                counts.put(key, 1);
             }
         }
-        for (int i = 0; i < line.length(); i++) {
-            if (Character.isLetterOrDigit(line.charAt(i)) || (line.charAt(i) == ' ')) {
-                filtredLine.append(line.charAt(i));
+        for (int j = 0; j < array.length; j++) {
+            String key = array[j];
+            if (counts.containsKey(key)) {
+                int val = counts.get(key);
+                if (val > 0) {
+                    counts.put(key, val - 1);
+                }
             }
         }
-        List<String> org = new ArrayList<>(Arrays.asList(filtredOrg.toString().split(" ")));
-        List<String> lin = new ArrayList<>(Arrays.asList(filtredLine.toString().split(" ")));
-        return org.containsAll(lin);
+        for (int v : counts.values()) {
+            if (v != 0) {
+                return false;
+            }
+        }
+        return true;
     }
 }
