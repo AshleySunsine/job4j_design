@@ -4,41 +4,22 @@ import java.util.*;
 
 public class FreezeStr {
     public static boolean eq(String left, String right) {
-        List<SimbolV2> l = new ArrayList<>();
-        Set<String> r = new HashSet<>();
-        long hashSumLeft = 0;
-        long hashSumRight = 0;
-        for (int i = 0; i < left.length(); i++) {
-            hashSumLeft += new SimbolV2(left.charAt(i)).hashCode();
+        if (left.length() != right.length()) {
+            return false;
         }
-        for (int i = 0; i < right.length(); i++) {
-            hashSumRight += new SimbolV2(right.charAt(i)).hashCode();
+        Map<String, Integer> array1 = new HashMap<>();
+        Map<String, Integer> array2 = new HashMap<>();
+        for (var k : left.split("")) {
+            array1.merge(k, 1, ((key, v) -> v + 1));
         }
-       return hashSumLeft == hashSumRight;
-    }
-
-   private static class SimbolV2 {
-        char simbol;
-
-        public SimbolV2(char simbol) {
-            this.simbol = simbol;
+        for (var k : right.split("")) {
+            array2.merge(k, 1, ((key, v) -> v + 1));
         }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
+        for (var k : left.split("")) {
+            if (array1.get(k).equals(array2.get(k))) {
                 return false;
             }
-            ru.job4j.collection.Simbol simbol1 = (ru.job4j.collection.Simbol) o;
-            return Objects.equals(simbol, simbol1.simbol);
         }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(simbol);
-        }
+        return true;
     }
 }
