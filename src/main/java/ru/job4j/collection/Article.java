@@ -7,16 +7,14 @@ public class Article {
         String[] source = origin.split("");
         String[] array = text.split("");
         HashMap<String, Integer> counts = new HashMap<>();
-        for (int i = 0; i < source.length; i++) {
-            String key = source[i];
+        for (var key : source) {
             if (counts.containsKey(key)) {
                 counts.put(key, counts.get(key) + 1);
             } else {
                 counts.put(key, 1);
             }
         }
-        for (int j = 0; j < array.length; j++) {
-            String key = array[j];
+        for (var key : array) {
             if (counts.containsKey(key)) {
                 int val = counts.get(key);
                 if (val > 0) {
