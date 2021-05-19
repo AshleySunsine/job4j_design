@@ -16,7 +16,7 @@ public class FreezeStr {
             array2.merge(k, 1, ((key, v) -> v + 1));
         }
         for (var k : left.split("")) {
-            if (array1.get(k).equals(array2.get(k))) {
+            if (!array1.get(k).equals(array2.get(k))) {
                 return false;
             }
         }
