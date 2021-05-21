@@ -42,4 +42,4 @@ insert into devices_people(device_id, people_id) values(4, 4);
 
 select avg(d.price) from devices as d;
 select p.name, avg(d.price) from people as p, devices as d, devices_people as dp where dp.people_id=p.id and dp.device_id=d.id group by p.name;
-select * FROM (select p.name, avg(d.price) as av from people as p, devices as d, devices_people as dp where dp.people_id=p.id and dp.device_id=d.id group by p.name) as main_table where av > 5000;
+select p.name, avg(d.price) as av from people as p, devices as d, devices_people as dp where dp.people_id=p.id and dp.device_id=d.id group by p.name having avg(d.price) > 5000;
