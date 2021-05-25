@@ -14,15 +14,18 @@ public class Config {
 
     public void load() {
         try (BufferedReader read = new BufferedReader(new FileReader(this.path))) {
-            read
-                    .lines()
-                    .filter(s -> !s.startsWith("#"))
-                    .forEach(s -> {
-                        int inx = s.indexOf("=");
-                        values.put(s.substring(0, inx), s.substring(inx + 1));
-                    });
+            String line = read.readLine();
+            while (line != null) {
+                if (!line.startsWith("#")) {
+                    int inx = line.indexOf("=");
+                    values.put(line.substring(0, inx), line.substring(inx + 1));
+                }
+                    line = read.readLine();
+            }
         } catch (Exception e) {
+            e.printStackTrace();
             throw new IllegalArgumentException("Pairs key=value arn't in " + path);
+
         }
     }
 
