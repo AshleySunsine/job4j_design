@@ -28,7 +28,7 @@ insert into emploers(name, dep_id) values ('emp_8', null);
 --select * from departments as d right join emploers as e on e.dep_id = d.id;
 --select * from emploers as e full join departments as d on e.dep_id = d.id;
 --select * from emploers as e cross join departments as d;
---select * from emploers as e left join departments as d on e.dep_id = d.id where e.dep_id is null;
+--select * from departments as d left join emploers as e on e.dep_id = d.id where e.dep_id is null;
 
 --select * from emploers as e left join departments as d on e.dep_id = d.id;
 --select * from departments as d right join emploers as e on e.dep_id = d.id;

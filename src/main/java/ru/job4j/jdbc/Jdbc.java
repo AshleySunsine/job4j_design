@@ -38,7 +38,6 @@ public class Jdbc {
         }
         if (!jdbc.validate(url, login, password)) { // Мини валидация.
             System.out.println("Url, логин или пароль не считались из файла app.properties");
-
         }
         try (Connection connection = DriverManager.getConnection(url, login, password)) {
             DatabaseMetaData metaData = connection.getMetaData();
