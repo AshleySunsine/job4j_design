@@ -12,6 +12,17 @@ public class Jdbc {
        return !(url == null || (url.isEmpty()) ||  (login == null || login.isEmpty()) ||  (password == null || password.isEmpty()));
     }
 
+    private String lineValidate(String line) {
+        if (line.isEmpty() || (line.equals(System.lineSeparator())) || (line.startsWith("#"))) {
+            return "EmptyLine";
+        }
+        String[] arg = line.split("=");
+        if ((arg.length < 2) || (arg[0].isEmpty() || arg[1].isEmpty())) {
+            return "Key=ValueProblem";
+        }
+        return "Ok";
+    }
+
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         Jdbc jdbc = new Jdbc();
         Class.forName("org.postgresql.Driver");
@@ -21,15 +32,22 @@ public class Jdbc {
         try (BufferedReader reader = new BufferedReader(new FileReader("app.properties"))) {
             String line = reader.readLine();
             while (line != null) {
-                String[] arg = line.split("=");
-                if (arg[0].equals("postgres.url")) {
-                    url = arg[1];
+                if (jdbc.lineValidate(line).equals("EmptyLine")) {
+                    line = reader.readLine();
+                    continue;
                 }
-                if (arg[0].equals("postgres.login")) {
-                    login = arg[1];
-                }
-                if (arg[0].equals("postgres.password")) {
-                    password = arg[1];
+                    if (jdbc.lineValidate(line).equals("Key=ValueProblem")) {
+                        throw new IllegalArgumentException("Проблема в паре ключ=значение в файле app.properties");
+                    }
+                    String[] arg = line.split("=");
+                    if (arg[0].equals("postgres.url")) {
+                        url = arg[1];
+                    }
+                    if (arg[0].equals("postgres.login")) {
+                        login = arg[1];
+                    }
+                    if (arg[0].equals("postgres.password")) {
+                        password = arg[1];
                 }
                 line = reader.readLine();
             }
@@ -37,7 +55,7 @@ public class Jdbc {
             e.printStackTrace();
         }
         if (!jdbc.validate(url, login, password)) { // Мини валидация.
-            System.out.println("Url, логин или пароль не считались из файла app.properties");
+            throw new IllegalArgumentException("Url, логин или пароль не считались из файла app.properties");
         }
         try (Connection connection = DriverManager.getConnection(url, login, password)) {
             DatabaseMetaData metaData = connection.getMetaData();
