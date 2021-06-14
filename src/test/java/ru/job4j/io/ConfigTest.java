@@ -38,4 +38,12 @@ public class ConfigTest {
         assertNull(config.value("hh"));
     }
 
+    @Test
+    public void whenTakePassword() {
+        String path = "app.properties";
+        Config config = new Config(path);
+        config.load();
+        assertThat(config.value("postgres.password"), is("password"));
+    }
+
 }

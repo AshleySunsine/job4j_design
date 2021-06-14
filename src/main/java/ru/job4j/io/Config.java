@@ -15,7 +15,11 @@ public class Config {
     public void load() {
         try (BufferedReader read = new BufferedReader(new FileReader(this.path))) {
             String line = read.readLine();
-            while ((line != null) && !(line.equals(""))) {
+            while (line != null) {
+                if (line.equals("")) {
+                    line = read.readLine();
+                    continue;
+                }
                 if (!line.startsWith("#")) {
                     int inx = line.indexOf("=");
                     values.put(line.substring(0, inx), line.substring(inx + 1));

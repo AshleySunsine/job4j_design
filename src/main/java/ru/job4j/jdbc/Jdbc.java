@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import ru.job4j.io.Config;
 
 public class Jdbc {
     private boolean validate(String url, String login, String password) {
