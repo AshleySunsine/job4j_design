@@ -7,7 +7,7 @@ sudo: false
 
 env:
   global:
-    - CODECOV_TOKEN="59e0c8a4-cede-493b-a9d6-f3a48fce13b4"
+    - CODECOV_TOKEN="3e0665f7-7c59-49f6-ad63-2382c5f9e54d"
 
 
 # Start PostgreSQL
