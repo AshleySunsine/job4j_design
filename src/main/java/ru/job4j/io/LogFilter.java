@@ -12,6 +12,7 @@ public class LogFilter {
             rsl = reader
                     .lines()
                     .filter(s -> {
+                        /*uil*/
                         int inx = s.lastIndexOf(" ");
                         return s.substring(inx - 3, inx).equals("404");
                     }
