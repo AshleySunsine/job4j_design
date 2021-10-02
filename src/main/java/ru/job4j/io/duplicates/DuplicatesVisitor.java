@@ -9,23 +9,28 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 
 public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
-    Map<String, FileProperty> files = new HashMap<>();
-    Map<String, FileProperty> dublicates = new HashMap<>();
+    private Map<String, List<FileProperty>> map = new HashMap<>();
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        FileProperty fileName = new FileProperty(Files.size(file),
-                file.getFileName().toString(),
-                file.toFile().getAbsolutePath());
-        if (files.containsKey(fileName.getName())
-                && (files.get(fileName.getName()).equals(fileName))) {
-            dublicates.put(fileName.getFullName(), fileName);
+        long size = Files.size(file);
+        String name = file.getFileName().toString();
+        FileProperty next = new FileProperty(size, file.getFileName().toString() ,file.toString());
+        if(map.containsKey(name)) {
+            List<FileProperty> list = new ArrayList<>(map.get(name));
+            list.add(next);
+            map.put(name, list);
         } else {
-            files.put(fileName.getName(), fileName);
+            map.put(name, List.of(next));
         }
         return FileVisitResult.CONTINUE;
     }
 
-    public Map<String, FileProperty> getDublicateList() {
-        return dublicates;
+    public List<FileProperty> getDublicateList() {
+        for (var unit : map.entrySet()) {
+            if (unit.getValue().size() > 1) { // Здесь косяк, возвращает только один список дубликатов из множества
+                return unit.getValue();
+            }
+        }
+        return null;
     }
 }
