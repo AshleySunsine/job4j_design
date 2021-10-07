@@ -6,31 +6,36 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
-    private Map<String, List<FileProperty>> map = new HashMap<>();
+    private HashMap<FileProperty, List<Path>> map = new HashMap<>();
+    private List<Path> paths = new ArrayList<>();
+
+    public List<Path> getPaths() {
+        for (var fileProperty : map.keySet()) {
+            List<Path> temp = map.get(fileProperty);
+            if (temp.size() > 1) {
+                paths.addAll(temp);
+            }
+        }
+        return paths;
+    }
+
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         long size = Files.size(file);
         String name = file.getFileName().toString();
-        FileProperty next = new FileProperty(size, file.getFileName().toString() ,file.toString());
-        if(map.containsKey(name)) {
-            List<FileProperty> list = new ArrayList<>(map.get(name));
-            list.add(next);
-            map.put(name, list);
+        FileProperty next = new FileProperty(size, name);
+        if (map.containsKey(next)) {
+            map.get(next).add(file);
         } else {
-            map.put(name, List.of(next));
+            ArrayList<Path> newList = new ArrayList<>();
+            newList.add(file);
+            map.put(next, newList);
         }
         return FileVisitResult.CONTINUE;
-    }
-
-    public List<FileProperty> getDublicateList() {
-        for (var unit : map.entrySet()) {
-            if (unit.getValue().size() > 1) { // Здесь косяк, возвращает только один список дубликатов из множества
-                return unit.getValue();
-            }
-        }
-        return null;
     }
 }

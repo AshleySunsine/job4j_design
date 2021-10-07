@@ -3,26 +3,28 @@ package ru.job4j.io.duplicates;
 import java.util.Objects;
 
 public class FileProperty {
-
     private long size;
-
     private String name;
 
-    private String fullName;
-
-    public FileProperty(long size, String name, String fullName) {
+    public FileProperty(long size, String name) {
         this.size = size;
         this.name = name;
-        this.fullName = fullName;
-
     }
 
-    public String getFullName() {
-        return fullName;
+    public long getSize() {
+        return size;
+    }
+
+    public void setSize(long size) {
+        this.size = size;
     }
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -40,14 +42,5 @@ public class FileProperty {
     @Override
     public int hashCode() {
         return Objects.hash(size, name);
-    }
-
-    @Override
-    public String toString() {
-        return "FileProperty{"
-               + "size=" + size
-               + ", name='" + name + '\''
-               + ", fullName='" + fullName + '\''
-               + '}';
     }
 }

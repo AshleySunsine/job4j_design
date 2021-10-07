@@ -35,7 +35,8 @@ public class Searcher {
                     .getName()
                     .endsWith(mask));
         } else if (type.equals("regex")) {
-            return (f -> (Pattern.compile(mask)).matcher(f.getFileName().toString()).find());
+            return (f -> (Pattern.compile(mask.replace("*", ".*")
+                    .replace("?", "\\w{1}"))).matcher(f.getFileName().toString()).find());
         }
         return (f -> f.toFile()
                     .getName().equals(mask));
