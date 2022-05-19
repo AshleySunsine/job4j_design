@@ -79,7 +79,7 @@ public class ConsoleChat {
         }
 
     public static void main(String[] args) {
-        ConsoleChat cc = new ConsoleChat("Chat.txt", "Responce.txt");
+        ConsoleChat cc = new ConsoleChat("Chat.txt", "answer.txt");
         cc.run();
     }
 }
